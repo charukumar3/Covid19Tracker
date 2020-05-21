@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Covid19 Tracker</title>
+	<style>
+    body {
+	   background-image: url("https://www.apa.org/images/covid-19-resources-title_tcm7-271587.jpg");
+        background-repeat:no-repeat;
+       background-size:cover;
+        } 
+		#textboxid
+{
+    height:20px;
+	width:200px;
+    font-size:10pt;
+}
+#sub
+{
+    height:50px;
+	width:100px;
+    font-size:14pt;
+}
+body {
+    text-align: center;
+}
+form {
+    display: inline-block;
+}
+    </style>
+</head>
+<body>
+    <h1 style="font-family:courier;text-align:center;font-size:60px;">Covid19 Tracker</h1>
+	<form id="myForm">
+	<input type="text" id="country" placeholder="Country Name" required >
+	<input  type="submit" value="Submit">
+	</form>
+	
+	<h2  id="recovered"></h2>
+	<h2  id="confirmed"></h2>
+	<h2  id="deaths"></h2>
+	
+</body>
+<script>
+    var myForm=document.getElementById('myForm');
+	myForm.addEventListener('submit',function(e){
+	e.preventDefault()
+	var country =document.getElementById('country').value
+	
+	
+	//fetch get request to get covid19 data from API
+	
+	var url="https://api.covid19api.com//total/dayone/country/"+country
+	
+	fetch(url)
+	.then((res) =>res.json())
+	.then((res) =>{
+	    var length=res.length
+	    var index=length - 1
+		var recovered=document.getElementById('recovered')
+		var confirmed=document.getElementById('confirmed')
+		var deaths=document.getElementById('deaths')
+		
+		recovered.innerHTML=''
+		confirmed.innerHTML=''
+		deaths.innerHTML=''
+		
+		
+		recovered.append("Total Cases Recovered - "+res[index].Recovered)
+		confirmed.append("Total Cases Confirmed - "+res[index].Confirmed)
+		deaths.append("Total Deaths - "+res[index].Deaths)
+	    })
+    })
+    
+</script>
+</html>
